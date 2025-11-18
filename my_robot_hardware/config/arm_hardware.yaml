@@ -1,0 +1,67 @@
+# config/arm_hardware.yaml
+arm_hardware:
+  ros__parameters:
+    # Plugin information (matches plugin.xml entry)
+    hardware_plugin: "arm_hardware/ArmHardwareInterface"
+
+    # One block per motor/joint
+    joints:
+      - name: axis_1
+        serial: 740266          # Phidgets hub serial number
+        hub_port: 1             # Port on the hub (0–4)
+        channel: 0              # Stepper channel (usually 0)
+        is_hub_port_device: false
+        rescale_factor: 0.00013635384
+        acceleration: 0.5
+        velocity_limit: 7.5
+        current_limit: 2.0
+        holding_current_limit: 0.1
+        zero_on_configure: false
+
+      - name: axis_2
+        serial: 740266
+        hub_port: 2
+        channel: 0
+        is_hub_port_device: false
+        rescale_factor: 0.00013635384
+        acceleration: 0.5
+        velocity_limit: 7.5
+        current_limit: 2.0
+        holding_current_limit: 0.1
+        zero_on_configure: false
+
+      - name: axis_3
+        serial: 740266
+        hub_port: 3
+        channel: 0
+        is_hub_port_device: false
+        rescale_factor: 0.00013635384
+        acceleration: 0.5
+        velocity_limit: 7.5
+        current_limit: 2.0
+        holding_current_limit: 0.1
+        zero_on_configure: false
+
+      - name: axis_4
+        serial: 740266
+        hub_port: 4
+        channel: 0
+        is_hub_port_device: false
+        rescale_factor: 0.00013635384
+        acceleration: 0.5
+        velocity_limit: 7.5
+        current_limit: 1.0
+        holding_current_limit: 0.1
+        zero_on_configure: false
+
+      - name: axis_5
+        serial: 740266
+        hub_port: 5
+        channel: 0
+        is_hub_port_device: false
+        rescale_factor: 0.00013635384
+        acceleration: 0.5
+        velocity_limit: 7.5
+        current_limit: 0.5
+        holding_current_limit: 0.1
+        zero_on_configure: false

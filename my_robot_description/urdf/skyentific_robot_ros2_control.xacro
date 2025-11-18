@@ -1,0 +1,120 @@
+<?xml version="1.0"?>
+<robot xmlns:xacro="http://www.ros.org/wiki/xacro">
+  <ros2_control name="Arm" type="system">
+        <hardware>
+            <!--<plugin>mock_components/GenericSystem</plugin>-
+            <param name="calculate_dynamics">true</param>-->
+            <plugin>arm_hardware/ArmHardwareInterface</plugin>
+            <!-- Per-joint Phidgets config goes here -->
+            <!-- 2*pi/360*1.8/16 =  0.0019634954  -->
+            <!-- Axis 1 and 2 n=1 to 108  rescale 0.0000186999562714 -->
+            <!-- Axis 3 n = 1 to 76.5 rescale 0.000025666606647 -->
+            <!-- Axis 4 and 5 n=1 to 62.4 rescale 0.000031466272572-->
+            <!-- joint1 -->
+            <param name="axis_1.serial">740266</param>
+            <param name="axis_1.hub_port">1</param>
+            <param name="axis_1.channel">0</param>
+            <param name="axis_1.is_hub_port_device">false</param>
+            <param name="axis_1.rescale_factor">0.0000186999562714</param>
+            <param name="axis_1.acceleration">5.0</param>
+            <param name="axis_1.velocity_limit">1.0</param>
+            <param name="axis_1.current_limit">1.2</param>
+            <param name="axis_1.holding_current_limit">0.3</param>
+            <param name="axis_1.zero_on_configure">false</param>
+
+            <!-- joint2 -->
+            <param name="axis_2.serial">740266</param>
+            <param name="axis_2.hub_port">2</param>
+            <param name="axis_2.channel">0</param>
+            <param name="axis_2.is_hub_port_device">false</param>
+            <param name="axis_2.rescale_factor">0.0000186999562714</param>
+            <param name="axis_2.acceleration">5.0</param>
+            <param name="axis_2.velocity_limit">1.0</param>
+            <param name="axis_2.current_limit">1.2</param>
+            <param name="axis_2.holding_current_limit">0.3</param>
+            <param name="axis_2.zero_on_configure">false</param>
+            <!-- joint3 -->
+            <param name="axis_3.serial">740266</param>
+            <param name="axis_3.hub_port">3</param>
+            <param name="axis_3.channel">0</param>
+            <param name="axis_3.is_hub_port_device">false</param>
+            <param name="axis_3.rescale_factor">0.000025666606647</param>
+            <param name="axis_3.acceleration">5.0</param>
+            <param name="axis_3.velocity_limit">1.0</param>
+            <param name="axis_3.current_limit">1.2</param>
+            <param name="axis_3.holding_current_limit">0.3</param>
+            <param name="axis_3.zero_on_configure">false</param>
+            <!-- joint4 -->
+            <param name="axis_4.serial">740266</param>
+            <param name="axis_4.hub_port">4</param>
+            <param name="axis_4.channel">0</param>
+            <param name="axis_4.is_hub_port_device">false</param>
+            <param name="axis_4.rescale_factor">0.000031466272572</param>
+            <param name="axis_4.acceleration">5.0</param>
+            <param name="axis_4.velocity_limit">1.0</param>
+            <param name="axis_4.current_limit">1.2</param>
+            <param name="axis_4.holding_current_limit">0.3</param>
+            <param name="axis_4.zero_on_configure">false</param>
+            <!-- joint5 -->
+            <param name="axis_5.serial">740266</param>
+            <param name="axis_5.hub_port">5</param>
+            <param name="axis_5.channel">0</param>
+            <param name="axis_5.is_hub_port_device">false</param>
+            <param name="axis_5.rescale_factor">0.000031466272572</param>
+            <param name="axis_5.acceleration">5.0</param>
+            <param name="axis_5.velocity_limit">1.0</param>
+            <param name="axis_5.current_limit">1.2</param>
+            <param name="axis_5.holding_current_limit">0.3</param>
+            <param name="axis_5.zero_on_configure">false</param>
+        </hardware>
+    <joint name="axis_1">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param> 
+      </state_interface>
+      <state_interface name="velocity" />
+    </joint>
+       <joint name="axis_2">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="axis_3">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="axis_4">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity" />
+    </joint>
+    <joint name="axis_5">
+      <command_interface name="position"/>
+      <state_interface name="position">
+        <param name="initial_value">0.0</param>
+      </state_interface>
+      <state_interface name="velocity" />
+    </joint>
+  </ros2_control>
+  <ros2_control name="Gripper" type="system">
+  <hardware>
+        <plugin>mock_components/GenericSystem</plugin> 
+        <!--<plugin>gripper_hardware/GripperHardwareInterface</plugin>-->
+            <param name="joint1_motor_id">20</param>
+            <param name="dynamixel_port">/dev/ttyACM0</param>
+    </hardware>
+    <joint name="axis_6">
+        <command_interface name="position"/>
+        <state_interface name="position">
+          <param name="initial_value">0.0</param>
+        </state_interface>
+    </joint>
+  </ros2_control>
+</robot>

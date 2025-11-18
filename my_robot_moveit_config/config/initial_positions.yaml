@@ -1,0 +1,9 @@
+# Default initial positions for skyentific_robot's ros2_control fake system
+
+initial_positions:
+  axis_1: 0
+  axis_2: 0
+  axis_3: 0
+  axis_4: 0
+  axis_5: 0
+  axis_6: 0

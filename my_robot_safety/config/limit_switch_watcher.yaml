@@ -1,0 +1,13 @@
+limit_switch_watcher:
+  ros__parameters:
+    hub_serial:  528369      # <-- your 2nd VINT hub serial
+    hub_port:    0           # DAQ1301 on this port
+    channels:    [0,1,2,3,4,11,12,13,14,15]
+    normally_closed: false
+    log_each_message: true
+
+    controller_manager_switch_service: /controller_manager/switch_controller
+    controllers_to_stop:  [arm_joints_controller, gripper_controller]
+    controllers_to_start: [hold_position_controller]
+    switch_strictness:    BEST_EFFORT
+    auto_restore_on_reset: true
