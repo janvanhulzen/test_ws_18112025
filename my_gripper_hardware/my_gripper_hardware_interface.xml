@@ -1,0 +1,9 @@
+<library path="my_gripper_hardware">
+    <class name="gripper_hardware/GripperHardwareInterface"
+           type="gripper_hardware::GripperHardwareInterface"
+           base_class_type="hardware_interface::SystemInterface">
+        <description>
+            Hardware interface for a gripper with 1 Dynamixel motor
+        </description>
+    </class>
+</library>
