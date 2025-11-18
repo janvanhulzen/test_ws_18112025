@@ -1,0 +1,53 @@
+controller_manager:
+  ros__parameters:
+    update_rate: 20 # Hz
+
+    arm_joints_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    gripper_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    hold_position_controller:
+      type: forward_command_controller/ForwardCommandController
+
+    joint_state_broadcaster:                             
+      type: joint_state_broadcaster/JointStateBroadcaster
+    
+arm_joints_controller:
+  ros__parameters:
+    joints: ["axis_1", "axis_2", "axis_3", "axis_4", "axis_5"]    
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      - velocity
+    
+    interface_name: "position"
+
+    allow_integration_in_goal_trajectories: true
+
+gripper_controller:
+  ros__parameters:
+    joints:
+      - ["axis_6"]
+    interface_name: "position"
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+    allow_integration_in_goal_trajectories: true
+
+hold_position_controller:
+  ros__parameters:
+    joints: ["axis_1","axis_2","axis_3","axis_4","axis_5"]
+    interface_name: "position"
+    state_publish_rate: 50.0
+
+
+
+

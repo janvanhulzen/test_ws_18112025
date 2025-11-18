@@ -1,0 +1,9 @@
+sensors:
+  - name: "joint_states"
+  - topic: "/joint_states"
+  - message_type: "sensor_msgs/msg//JointState"
+  - robot_status:
+      - name: "position"
+      - min_freq: 10.0
+      - max_freq: 50.0
+      - window_size: 5

@@ -1,0 +1,46 @@
+<launch>
+  <let name="urdf_path"
+       value="$(find-pkg-share my_robot_description)/urdf/skyentific_robot.urdf.xacro"/>
+  <let name="rviz_config_path"
+       value="$(find-pkg-share my_robot_bringup)/config/robot_moveit.rviz"/>
+
+  <!-- Robot State Publisher -->
+  <node pkg="robot_state_publisher" exec="robot_state_publisher" output="screen">
+    <param name="robot_description" value="$(command 'xacro $(var urdf_path)')"/>
+  </node>
+
+  <!-- ros2_control (controller_manager) -->
+  <node pkg="controller_manager" exec="ros2_control_node" output="screen">
+    <!-- IMPORTANT: give CM the same robot_description -->
+    <param name="robot_description" value="$(command 'xacro $(var urdf_path)')"/>
+    <!-- controllers config -->
+    <param from="$(find-pkg-share my_robot_bringup)/config/skyentific_robot_controllers.yaml"/>
+    <param from="$(find-pkg-share my_robot_bringup)/config/qos_overrides.yaml"/>
+  </node>
+
+  <!-- Spawners -->
+  <node pkg="controller_manager" exec="spawner" args="joint_state_broadcaster"/>
+  <node pkg="controller_manager" exec="spawner" args="arm_joints_controller"/>
+  <node pkg="controller_manager" exec="spawner" args="gripper_controller"/>
+  <node pkg="controller_manager" exec="spawner" args="hold_position_controller --inactive"/>
+
+ <!-- lauch safety node -->
+  <node pkg="my_robot_safety" exec="limit_switch_watcher_node"
+      output="screen"
+      name="limit_switch_watcher">
+  <param from="$(find-pkg-share my_robot_safety)/config/limit_switch_watcher.yaml"/>
+  </node>
+
+  <!-- MoveIt -->
+  <include file="$(find-pkg-share my_robot_moveit_config)/launch/move_group.launch.py"/> 
+
+  <!-- RViz -->
+
+<node pkg="rviz2" exec="rviz2" name="rviz2" output="screen"
+      args="-d $(var rviz_config_path) --ros-args --params-file $(find-pkg-share my_robot_moveit_config)/config/rviz_params.yaml"/>
+
+  <!-- Add world objects (collision meshes) -->
+  <node pkg="my_robot_world" exec="add_world_objects"
+        output="screen" name="add_world_objects" />
+
+</launch>

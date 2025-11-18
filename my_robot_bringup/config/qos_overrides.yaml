@@ -1,0 +1,24 @@
+/**:
+  ros__parameters:
+    qos_overrides:
+      /joint_states:
+        publisher:
+          reliability: best_effort
+          durability: volatile
+          history: keep_last
+          depth: 10
+
+      /arm_joints_controller/controller_state:
+        publisher:
+          reliability: best_effort
+          durability: volatile
+          history: keep_last
+          depth: 10
+
+      # Keep the command path reliable (omit or set explicitly)
+      /arm_joints_controller/joint_trajectory:
+        subscription:
+          reliability: reliable
+          durability: volatile
+          history: keep_last
+          depth: 10

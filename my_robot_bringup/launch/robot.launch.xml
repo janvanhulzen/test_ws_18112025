@@ -1,0 +1,69 @@
+<launch>
+
+  <!-- Paths -->
+  <let name="urdf_path"
+       value="$(find-pkg-share my_robot_description)/urdf/skyentific_robot.urdf.xacro"/>
+
+  <let name="rviz_config_path"
+       value="$(find-pkg-share my_robot_bringup)/config/robot_moveit.rviz"/>
+
+  <let name="controllers_yaml"
+       value="$(find-pkg-share my_robot_bringup)/config/skyentific_robot_controllers.yaml"/>
+
+  <let name="qos_overrides_yaml"
+       value="$(find-pkg-share my_robot_bringup)/config/qos_overrides.yaml"/>
+
+  <let name="safety_config_yaml"
+       value="$(find-pkg-share my_robot_safety)/config/limit_switch_watcher.yaml"/>
+
+  <let name="move_group_launch"
+       value="$(find-pkg-share my_robot_moveit_config)/launch/move_group.launch.py"/>
+
+  <let name="rviz_params_yaml"
+       value="$(find-pkg-share my_robot_moveit_config)/config/rviz_params.yaml"/>
+
+
+  <!-- Robot State Publisher using defenitions from skyentific_robot.urdf.xacro -->
+  <node pkg="robot_state_publisher" exec="robot_state_publisher" output="screen">
+    <param name="robot_description" value="$(command 'xacro $(var urdf_path)')"/>
+  </node>
+
+  <!-- ros2_control (controller_manager) -->
+  <node pkg="controller_manager" exec="ros2_control_node" output="screen">
+
+    <!-- controller manager based on same robot_description as state publisher-->
+    <param name="robot_description" value="$(command 'xacro $(var urdf_path)')"/>
+
+    <!-- controllers config: skyentific_robot_controllers.yaml and
+     qos_overrides.yaml-->
+    <param from="$(var controllers_yaml)"/>
+    <param from="$(var qos_overrides_yaml)"/>
+  </node>
+  <!-- Controller Spawners -->
+  <node pkg="controller_manager" exec="spawner" args="joint_state_broadcaster"/>
+  <node pkg="controller_manager" exec="spawner" args="arm_joints_controller"/>
+  <node pkg="controller_manager" exec="spawner" args="gripper_controller"/>
+  <node pkg="controller_manager" exec="spawner" args="hold_position_controller --inactive"/>
+
+
+  <!-- Safety Node defined using limit_switch_watcher.yaml-->
+  <node pkg="my_robot_safety" exec="limit_switch_watcher_node"
+        output="screen" name="limit_switch_watcher">
+    <param from="$(var safety_config_yaml)"/>
+  </node>
+
+
+  <!-- MoveIt -->
+  <include file="$(var move_group_launch)"/>
+
+
+  <!-- RViz / rviz_params.yaml -->
+  <node pkg="rviz2" exec="rviz2" name="rviz2" output="screen"
+        args="-d $(var rviz_config_path) --ros-args --params-file $(var rviz_params_yaml)"/>
+
+
+  <!-- Add world objects (collision meshes) -->
+  <node pkg="my_robot_world" exec="add_world_objects"
+        output="screen" name="add_world_objects"/>
+
+</launch>
